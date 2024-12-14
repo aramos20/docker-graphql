@@ -19,10 +19,10 @@ jobs:
        fetch-deep: 0
 
     - name: Git Semantic Version
-      uses: PaulHatch/semantic-version@v4.0.3
+      uses: PaulHatch/semantic-version@vv5.4.0
       with:
-        major_pattern: "major:"
-        minor_pattern: "feat:"
+        major_pattern: "(MAJOR:)"
+        minor_pattern: "(MINOR:)"
         version_format: "${major}.${minor}.${patch}-prerelease${increment}"
       id: version
   
@@ -33,7 +33,7 @@ jobs:
         NEW_VERSION: ${{ steps.version.output.version}}
       run: |
         docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
-        echo "BRAND NEW $NEW_VERSION!!!!"
+        echo "BRAND NEW $NEW_VERSION !!!!"
 
     - name: Build Docker Image
       run: |
