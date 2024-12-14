@@ -30,19 +30,22 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN}}
-        NEW_VERSION: ${{ steps.version.output.version}}
       run: |
         docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
         echo "BRAND NEW $NEW_VERSION !!!!"
 
     - name: Build Docker Image
+      env:
+        NEW_VERSION: ${{ steps.version.output.version}}
       run: |
-        docker build -t aramos20/graphql-docker:0.0.2 .
+        docker build -t aramos20/graphql-docker:$NEW_VERSION .
         docker build -t aramos20/graphql-docker .
 
     - name: Push Docker Image
+      env:
+          NEW_VERSION: ${{ steps.version.output.version}}
       run: |
-        docker push aramos20/graphql-docker:0.0.2
+        docker push aramos20/graphql-docker:$NEW_VERSION
         docker push aramos20/graphql-docker
         
     # - name: Build the Docker image
